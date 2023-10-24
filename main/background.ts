@@ -2,6 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
+import getUsers, {getUsage} from './database'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -37,4 +38,29 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('message', async (event, arg) => {
   event.reply('message', `${arg} World!`)
+})
+
+
+ipcMain.on('db', async (event, arg) => {
+
+    switch (arg) {
+    case 'getUsers':
+      console.log("getUsers");
+      getUsers().then((rows) => {
+        event.reply('db', rows)
+      })
+      break;
+    case 'getUsage':
+      console.log("getUsage");
+      getUsage().then((rows) => {
+        event.reply('db', rows)
+        })
+      break;
+    case 3:
+      console.log("Three");
+      break;
+    default:
+      console.log("Unknown");
+    }
+
 })

@@ -11,6 +11,8 @@ import {
   Slider,
   Button,
 } from 'antd'
+import LayoutHeader from "./layoutheader";
+import LayoutFooter from "./layoutfooter";
 
 const { Header, Content } = Layout
 const { Item: FormItem } = Form
@@ -19,18 +21,8 @@ const { Option } = Select
 export default function HomePage() {
   return (
     <React.Fragment>
-      <Head>
-        <title>Home - Nextron (with-ant-design)</title>
-      </Head>
 
-      <Header>
-        <Link href="/next">
-          <a>Go to next page</a>
-        </Link>
-        <Link href="/table">
-          <a>Go to TABLE</a>
-        </Link>
-      </Header>
+      <LayoutHeader/>
 
       <Content style={{ padding: 48 }}>
         <Form layout="horizontal">
@@ -101,6 +93,7 @@ export default function HomePage() {
           </FormItem>
         </Form>
       </Content>
+      <LayoutFooter/>
     </React.Fragment>
   )
 }

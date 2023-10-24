@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: kr.co.impix.fems.energymeter
+productName: EnergyMeter
+copyright: Copyright © 2023 IMPIX
 directories:
   output: dist
   buildResources: resources

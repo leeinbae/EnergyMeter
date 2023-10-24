@@ -1,112 +1,129 @@
 import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import {Layout, Result, Table, Space, Tag} from 'antd'
+import {Layout, Table,  Input,  Tabs, Breadcrumb} from 'antd'
 import type { ColumnsType } from 'antd/es/table'
+import { Line } from '@ant-design/charts';
+import LayoutHeader from "./layoutheader";
+import LayoutFooter from "./layoutfooter";
 
-import sqlite3 from "sqlite3";
-
-const db = new sqlite3.Database("database.db");
-
-const { Header, Content } = Layout
+const {  Content } = Layout
 
 export default function NextPage() {
+
     interface DataType {
-        key: string;
-        name: string;
-        age: number;
-        address: string;
-        tags: string[];
+        key: number;
+        v_code: string;
+        m_code: string;
+        f_code: string;
+        u_date: string;
+        u_usage: number;
     }
+
+    const [message, setMessage] = React.useState('No message found')
+    const [dataSource, setDataSource] = React.useState();
+    const [filtered, setFiltered] = React.useState();
+
+    React.useEffect(() => {
+        window.ipc.on('message', (message: string) => {
+            setMessage(message)
+        })
+        window.ipc.on('db', (rows) => {
+            console.log(rows)
+            // @ts-ignore
+            setDataSource(rows);
+        })
+        window.ipc.send('db', 'getUsage')
+    }, [])
+
 
     const columns: ColumnsType<DataType> = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (text) => <a>{text}</a>,
+            title: "seq",
+            dataIndex: "key"
         },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
+            title: "업체",
+            dataIndex: "v_code",
+            onFilter: (value: string, record) => record.v_code.indexOf(value) === 0
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
+            title: "계량기",
+            dataIndex: "m_code"
         },
         {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
+            title: "설비",
+            dataIndex: "f_code"
         },
         {
-            title: 'Action',
-            key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <a>Invite {record.name}</a>
-                    <a>Delete</a>
-                </Space>
-            ),
+            title: "사용일시",
+            dataIndex: "u_date",
+            onCell: () => {
+                return {
+                    style: {
+                        whiteSpace: 'nowrap'
+                    }
+                }
+            },
         },
+        {
+            title: "사용량",
+            dataIndex: "u_usage"
+        }
     ];
 
-    const data: DataType[] = [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-            tags: ['nice', 'developer'],
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-            tags: ['loser'],
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sydney No. 1 Lake Park',
-            tags: ['cool', 'teacher'],
-        },
-    ];
+    const search = value => {
+        //const {dataSource} = this.state;
+        // console.log("PASS", {value});
+
+        // @ts-ignore
+        const filtered = dataSource.filter(o =>
+            Object.keys(o).some(k =>
+                String(o[k])
+                    .toLowerCase()
+                    .includes(value.toLowerCase())
+            )
+        );
+
+        setFiltered(filtered);
+    };
+
+    const config = {
+        data: dataSource,
+        xField: 'u_date',
+        yField: 'u_usage',
+        height: 400,
+        point: {
+            size: 5,
+            shape:'diamond',
+            style:{
+                fillOpacity :1,
+                strokeOpacity :0,
+            }
+        }
+    };
+
     return (
-    <React.Fragment>
-      <Head>
-        <title>Next - Nextron (with-ant-design)</title>
-      </Head>
+        <React.Fragment>
 
-      <Header>
-        <Link href="/home">
-          <a>Go to home page</a>
-        </Link>
-      </Header>
+            <LayoutHeader/>
 
-      <Content style={{ padding: 48 }}>
-          {/*  Ant Design TABLE SAMPLE*/}
-          <Table columns={columns} dataSource={data} />
-      </Content>
-    </React.Fragment>
-  )
+            <Content style={{ padding: 16 }}>
+                <Breadcrumb style={{ margin: '0 0 10px 0' }}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>List</Breadcrumb.Item>
+                    <Breadcrumb.Item>App</Breadcrumb.Item>
+                </Breadcrumb>
+                <Input.Search placeholder="input search text" onSearch={search} enterButton />
+                <Tabs>
+                    <Tabs.TabPane tab="에너지 사용량 조회" key="1">
+                        <Table columns={columns}  dataSource={filtered == null ? dataSource : filtered} />
+                    </Tabs.TabPane>
+                    <Tabs.TabPane tab="기간 별 모니터링" key="2">
+                        <Line {...config} />
+                    </Tabs.TabPane>
+                </Tabs>
+
+            </Content>
+            <LayoutFooter/>
+        </React.Fragment>
+    )
 }

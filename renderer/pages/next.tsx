@@ -1,26 +1,28 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { Layout, Result } from 'antd'
+import {Breadcrumb, Layout, Menu, Result} from 'antd'
+import LayoutHeader from "./layoutheader";
+import LayoutFooter from "./layoutfooter";
 
 const { Header, Content } = Layout
 
 export default function NextPage() {
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Next - Nextron (with-ant-design)</title>
-      </Head>
+    return (
+        <React.Fragment>
 
-      <Header>
-        <Link href="/home">
-          <a>Go to home page</a>
-        </Link>
-      </Header>
+            <LayoutHeader/>
 
-      <Content style={{ padding: 48 }}>
-        <Result status="success" title="IMPIX" subTitle="with Ant Design" />
-      </Content>
-    </React.Fragment>
-  )
+            <Content style={{ padding: 16 }}>
+                <Breadcrumb style={{ margin: '1px 0' }}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>List</Breadcrumb.Item>
+                    <Breadcrumb.Item>App</Breadcrumb.Item>
+                </Breadcrumb>
+                <Result status="success" title="IMPIX" subTitle="with Ant Design" />
+            </Content>
+
+            <LayoutFooter/>
+        </React.Fragment>
+    )
 }
