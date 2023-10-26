@@ -34,37 +34,29 @@ const App: React.FC = () => {
             key: 'code',
             icon: <SettingOutlined />
         },
-        {
-            label: '기준정보관리',
-            key: 'SubMenu',
-            icon: <SettingOutlined />,
-            children: [
-                {
-                    type: 'group',
-                    label: (
-                        <Link href="/next">
-                            <a>업체코드</a>
-                        </Link>
-                    ),
-                },
-                {
-                    type: 'group',
-                    label: '계량기코드'
-                },
-                {
-                    type: 'group',
-                    label: '설비코드'
-                },
-            ],
-        },
-        {
-            label: (
-                <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                    Navigation Four - Link
-                </a>
-            ),
-            key: 'alipay',
-        }
+        // {
+        //     label: '기준정보관리',
+        //     key: 'SubMenu',
+        //     icon: <SettingOutlined />,
+        //     children: [
+        //         {
+        //             type: 'group',
+        //             label: (
+        //                 <Link href="/next">
+        //                     <a>업체코드</a>
+        //                 </Link>
+        //             ),
+        //         },
+        //         {
+        //             type: 'group',
+        //             label: '계량기코드'
+        //         },
+        //         {
+        //             type: 'group',
+        //             label: '설비코드'
+        //         },
+        //     ],
+        // }
     ];
     const {
         token: { colorBgContainer },

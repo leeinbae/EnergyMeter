@@ -1,99 +1,26 @@
 import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import {
-  Layout,
-  Form,
-  Select,
-  InputNumber,
-  DatePicker,
-  Switch,
-  Slider,
-  Button,
-} from 'antd'
+import {Breadcrumb, Layout, Menu, Result} from 'antd'
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
 
-const { Header, Content } = Layout
-const { Item: FormItem } = Form
-const { Option } = Select
+const { Content } = Layout
 
 export default function HomePage() {
   return (
-    <React.Fragment>
+      <React.Fragment>
 
-      <LayoutHeader/>
+        <LayoutHeader/>
 
-      <Content style={{ padding: 48 }}>
-        <Form layout="horizontal">
-          <FormItem
-            label="Input Number"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <InputNumber
-              size="large"
-              min={1}
-              max={10}
-              style={{ width: 100 }}
-              defaultValue={3}
-              name="inputNumber"
-            />
-            <a href="#">Link</a>
-          </FormItem>
+        <Content style={{ padding: 16 }}>
+          <Breadcrumb style={{ margin: '1px 0' }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <Result status="success" title="FEMS" subTitle="IMPIX" />
+        </Content>
 
-          <FormItem
-            label="Switch"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Switch defaultChecked />
-          </FormItem>
-
-          <FormItem
-            label="Slider"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Slider defaultValue={70} />
-          </FormItem>
-
-          <FormItem
-            label="Select"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <Select size="large" defaultValue="lucy" style={{ width: 192 }}>
-              <Option value="jack">jack</Option>
-              <Option value="lucy">lucy</Option>
-              <Option value="disabled" disabled>
-                disabled
-              </Option>
-              <Option value="yiminghe">yiminghe</Option>
-            </Select>
-          </FormItem>
-
-          <FormItem
-            label="DatePicker"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 8 }}
-          >
-            <DatePicker name="startDate" />
-          </FormItem>
-          <FormItem
-            style={{ marginTop: 48 }}
-            wrapperCol={{ span: 8, offset: 8 }}
-          >
-            <Button size="large" type="primary" htmlType="submit">
-              OK
-            </Button>
-            <Button size="large" style={{ marginLeft: 8 }}>
-              Cancel
-            </Button>
-          </FormItem>
-        </Form>
-      </Content>
-      <LayoutFooter/>
-    </React.Fragment>
+        <LayoutFooter/>
+      </React.Fragment>
   )
 }

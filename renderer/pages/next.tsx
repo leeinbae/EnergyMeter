@@ -1,11 +1,9 @@
 import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
 import {Breadcrumb, Layout, Menu, Result} from 'antd'
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
 
-const { Header, Content } = Layout
+const { Content } = Layout
 
 export default function NextPage() {
     return (
@@ -19,7 +17,7 @@ export default function NextPage() {
                     <Breadcrumb.Item>List</Breadcrumb.Item>
                     <Breadcrumb.Item>App</Breadcrumb.Item>
                 </Breadcrumb>
-                <Result status="success" title="IMPIX" subTitle="with Ant Design" />
+                <Result status="success" title="FEMS" subTitle="IMPIX" />
             </Content>
 
             <LayoutFooter/>
