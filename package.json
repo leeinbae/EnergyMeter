@@ -14,15 +14,15 @@
     "./database.db"
   ],
   "build": {
-    "extraResources": ["./database.db"]
+    "asar": false,
+    "extraResources": [
+      "./database.db"
+    ]
   },
   "dependencies": {
-    "@ant-design/charts": "^1.4.2",
+    "@ant-design/plots": "^1.2.5",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
-    "file-loader": "^6.2.0",
-    "raw-loader": "^4.0.2",
-    "react-router-dom": "^6.17.0",
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {

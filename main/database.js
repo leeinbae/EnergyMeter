@@ -1,10 +1,12 @@
+import {app} from "electron";
+
 const sqlite3 = require('sqlite3').verbose();
 
 // Create and connect to the database
 let db ;
 
 function connect() {
-    return new sqlite3.Database('database.db') ;
+    return new sqlite3.Database(app.getPath("userData")+'/database.db') ;
 }
 // Create a table
 // db.serialize(() => {

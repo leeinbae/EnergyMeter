@@ -1,11 +1,15 @@
 import React from 'react'
 import {Layout, Table,  Input,  Tabs, Breadcrumb} from 'antd'
 import type { ColumnsType } from 'antd/es/table'
-import { Line } from '@ant-design/charts';
+//import  Line  from '@ant-design/plots';
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
+import dynamic from "next/dynamic";
 
 const {  Content } = Layout
+
+//const Line = React.lazy(() => import("@ant-design/plots").then((module) => ({ default: module.Line })));
+const Line = dynamic(() => import('@ant-design/plots').then(({ Line }) => Line), { ssr: false, });
 
 export default function NextPage() {
 
