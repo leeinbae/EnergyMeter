@@ -3,29 +3,28 @@ import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
 import getUsers, {getUsage} from './database'
+import fs from "fs"
 
 const isProd = process.env.NODE_ENV === 'production'
+let existingSqliteFile;
 
 if (isProd) {
   serve({ directory: 'app' })
+  existingSqliteFile = fs.readFileSync(path.join(process.resourcesPath, './database.db'));
 } else {
   app.setPath('userData', `${app.getPath('userData')} (development)`)
+  existingSqliteFile = fs.readFileSync(path.join(__dirname, '../database.db'));
 }
+
+const userDataDirectory = app.getPath("userData");
+console.log('app.getPath userData:',app.getPath('userData'))
+console.log('__dirname:',__dirname)
+console.log('process.resourcesPath:',process.resourcesPath)
+console.log('path.join__dirname+database.db:',path.join(__dirname, '../database.db'))
+fs.writeFileSync(`${userDataDirectory}/database.db`, existingSqliteFile);
 
 ;(async () => {
   await app.whenReady()
-
-  console.log('app.getPath userData:',app.getPath('userData'))
-  console.log('__dirname:',__dirname)
-  console.log('process.resourcesPath:',process.resourcesPath)
-  const fs = require("fs");
-
-  // 기존 SQLite 파일을 읽습니다.
-  const existingSqliteFile = fs.readFileSync(path.join(process.resourcesPath, './database.db'));
-  // 앱의 사용자 데이터 디렉터리를 가져옵니다.
-  const userDataDirectory = app.getPath("userData");
-  // SQLite 파일을 앱의 사용자 데이터 디렉터리에 복사합니다.
-  fs.writeFileSync(`${userDataDirectory}/database.db`, existingSqliteFile);
 
   const mainWindow = createWindow('main', {
     width: 1000,

@@ -6,6 +6,7 @@ const sqlite3 = require('sqlite3').verbose();
 let db ;
 
 function connect() {
+    console.log('connect : ',app.getPath("userData")+'/database.db')
     return new sqlite3.Database(app.getPath("userData")+'/database.db') ;
 }
 // Create a table
