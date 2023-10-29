@@ -2,50 +2,23 @@ import {app} from "electron";
 
 const sqlite3 = require('sqlite3').verbose();
 
-// Create and connect to the database
-let db ;
 
 function connect() {
     console.log('connect : ',app.getPath("userData")+'/database.db')
     return new sqlite3.Database(app.getPath("userData")+'/database.db') ;
 }
-// Create a table
-// db.serialize(() => {
-//     db.run('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)');
-//
-//     // Insert data into the table
-//     const stmt = db.prepare('INSERT INTO users (name, age) VALUES (?, ?)');
-//     stmt.run('John Doe', 25);
-//     stmt.run('Jane Smith', 30);
-//     stmt.finalize();
-//
-//     // Retrieve data from the table
-//     db.each('SELECT * FROM users', (err, row) => {
-//         console.log(row.id, row.name, row.age);
-//     });
-// });
-//
-// // Close the database connection when done
-// db.close();
 
-// Retrieve data from the table function
-function getUser(id) {
-    return new Promise((resolve, reject) => {
-        db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve(row);
-        });
-    });
-}
-
-// Retrieve data from the table function
-function getUsers() {
+export function getUsage(u_date_from = '00000000', u_date_to = '99999999') {
     return new Promise((resolve, reject) => {
         const db = connect();
-        db.all('SELECT * FROM users', (err, rows) => {
+        db.all('SELECT u.seq AS key, u.v_code, u.m_code, u.f_code, u.u_date, ROUND( u.u_usage * v.v_cal , 2 ) AS u_usage \n' +
+            ', v.v_name , v.v_cal , m.m_name , f.f_name , f.f_factory \n' +
+            'FROM usage_t u\n' +
+            'INNER JOIN vend_t v ON u.v_code  = v.v_code \n' +
+            'INNER JOIN meter_t m ON u.m_code = m.m_code AND u.v_code = m.v_code \n' +
+            'INNER JOIN facility_t f ON u.f_code = f.f_code  AND u.v_code = f.v_code ' +
+            'WHERE SUBSTR(u_date,1,8) >= ? AND SUBSTR(u_date,1,8) <= ? ' +
+            'ORDER BY u.v_code , u.m_code , u.u_date',[u_date_from,u_date_to] ,(err, rows) => {
             if (err) {
                 reject(err);
                 return;
@@ -56,58 +29,51 @@ function getUsers() {
     });
 }
 
-// Insert data into the table function
-function insertUser(name, age) {
-    return new Promise((resolve, reject) => {
-        db.run('INSERT INTO users (name, age) VALUES (?, ?)', [name, age], (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve();
-        });
-    });
-}
+export async function upsertUsage(csvData) {
 
-// Update data in the table function
-function updateUser(id, name, age) {
-    return new Promise((resolve, reject) => {
-        db.run('UPDATE users SET name = ?, age = ? WHERE id = ?', [name, age, id], (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve();
-        });
-    });
-}
+    const db = connect();
 
-// Delete data from the table function
-function deleteUser(id) {
-    return new Promise((resolve, reject) => {
-        db.run('DELETE FROM users WHERE id = ?', [id], (err) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve();
-        });
-    });
-}
+    // csv 파일의 각 행을 처리합니다.
+    for (const row of csvData.split("\n")) {
 
-export function getUsage() {
-    return new Promise((resolve, reject) => {
-        const db = connect();
-        db.all('SELECT seq AS key, v_code, m_code, f_code, u_date, u_usage FROM usage_t', (err, rows) => {
+        const values = row.split(",");
+        console.log('u_date : ', values[3]);
+
+        db.get('SELECT * FROM usage_t WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ?', [values[0], values[1], values[2], values[3]], async (err, row) => {
             if (err) {
-                reject(err);
-                return;
+                throw err;
             }
-            resolve(rows);
+            // row is an object representing the first record that matches the condition
+            console.log(row);
+            // 레코드가 존재하는 경우
+            if (row) {
+                console.log('UPDATE');
+                await db.run("UPDATE usage_t SET u_usage = ? WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ? ", values[4], values[0], values[1], values[2], values[3]);
+            } else {
+                console.log('INSERT');
+                await db.run("INSERT INTO usage_t (v_code, m_code, f_code, u_date, u_usage) VALUES (?, ?, ?, ?, ?)", values[0], values[1], values[2], values[3], values[4]);
+            }
         });
-        db.close();
-    });
+
+
+        // const results = await db.all("SELECT COUNT() FROM usage_t WHERE u_date = ?", values[3]);
+        //
+        // console.log('results : ', results);
+        //
+        // // 레코드가 존재하는 경우
+        // if (results > 0) {
+        //     console.log('UPDATE');
+        //     await db.run("UPDATE usage_t SET v_code = ?, m_code = ?, f_code = ?, u_usage = ? WHERE u_date = ?", values[0], values[1], values[2], values[4], values[3]);
+        // } else {
+        //     console.log('INSERT');
+        //     await db.run("INSERT INTO usage_t (v_code, m_code, f_code, u_date, u_usage) VALUES (?, ?, ?, ?, ?)", values[0], values[1], values[2], values[3], values[4]);
+        // }
+
+    }
+
+
+    await db.close();
 }
 
 // Export functions
-export default getUsers;
+export default getUsage;

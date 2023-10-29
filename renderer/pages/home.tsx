@@ -2,25 +2,37 @@ import React from 'react'
 import {Breadcrumb, Layout, Menu, Result} from 'antd'
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
+import LayoutSider from "./layoutsider";
 
-const { Content } = Layout
+const { Header, Sider, Content } = Layout;
 
 export default function HomePage() {
-  return (
-      <React.Fragment>
+    return (
 
-        <LayoutHeader/>
 
-        <Content style={{ padding: 16 }}>
-          <Breadcrumb style={{ margin: '1px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Result status="success" title="FEMS" subTitle="IMPIX" />
-        </Content>
+        <Layout>
+            <LayoutSider/>
+            <Layout >
+                <LayoutHeader/>
+                <Content>
 
-        <LayoutFooter/>
-      </React.Fragment>
-  )
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                    <Result status="success" title="FEMS" subTitle="IMPIX" />
+                </Content>
+                <LayoutFooter/>
+            </Layout>
+
+        </Layout>
+
+
+
+
+    )
 }

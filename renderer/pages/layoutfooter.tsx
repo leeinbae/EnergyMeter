@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, theme} from 'antd';
+import {Layout, theme,Image} from 'antd';
 
 const { Footer } = Layout;
 
@@ -9,9 +9,11 @@ const App: React.FC = () => {
     } = theme.useToken();
 
     return (
-        <Layout className="layout">
-            <Footer style={{ textAlign: 'center' }}>FEMS ©2023 Created by IMPIX</Footer>
-        </Layout>
+
+            <Footer style={{ textAlign: 'center' }}>
+                <img src="/images/made.png" alt="logo" width="300px" />
+            </Footer>
+
     );
 };
 

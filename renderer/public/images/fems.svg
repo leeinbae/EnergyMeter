@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 206.97 107.79">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Degradado_sin_nombre_7);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11 {
+        stroke-width: 0px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-11 {
+        mix-blend-mode: overlay;
+      }
+
+      .cls-1, .cls-3 {
+        opacity: .48;
+      }
+
+      .cls-2 {
+        fill: url(#Degradado_sin_nombre_8-2);
+      }
+
+      .cls-2, .cls-11 {
+        opacity: .42;
+      }
+
+      .cls-3 {
+        fill: url(#Degradado_sin_nombre_7-2);
+      }
+
+      .cls-4 {
+        fill: url(#Degradado_sin_nombre_2);
+      }
+
+      .cls-12 {
+        isolation: isolate;
+      }
+
+      .cls-5 {
+        fill: url(#Degradado_sin_nombre_2-7);
+      }
+
+      .cls-6 {
+        fill: url(#Degradado_sin_nombre_2-4);
+      }
+
+      .cls-7 {
+        fill: url(#Degradado_sin_nombre_2-6);
+      }
+
+      .cls-8 {
+        fill: url(#Degradado_sin_nombre_2-5);
+      }
+
+      .cls-9 {
+        fill: url(#Degradado_sin_nombre_2-3);
+      }
+
+      .cls-10 {
+        fill: url(#Degradado_sin_nombre_2-2);
+      }
+
+      .cls-11 {
+        fill: url(#Degradado_sin_nombre_8);
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_2" data-name="Degradado sin nombre 2" x1="58.96" y1="129.2" x2="125.98" y2="-96.81" gradientTransform="translate(-25.2 -3.55) rotate(23.48)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#003e6b"/>
+      <stop offset=".51" stop-color="#5fa000"/>
+      <stop offset="1" stop-color="#ffe100"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_7" data-name="Degradado sin nombre 7" x1="99.78" y1="34" x2="72.54" y2="80.62" gradientTransform="translate(-25.2 -3.55) rotate(23.48)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_7-2" data-name="Degradado sin nombre 7" x1="91.3" y1="-2.51" x2="104.1" y2="-39.62" xlink:href="#Degradado_sin_nombre_7"/>
+    <linearGradient id="Degradado_sin_nombre_2-2" data-name="Degradado sin nombre 2" x1="91.77" y1="25.15" x2="82.37" y2="85.27" xlink:href="#Degradado_sin_nombre_2"/>
+    <linearGradient id="Degradado_sin_nombre_2-3" data-name="Degradado sin nombre 2" x1="82.78" y1="22.58" x2="115.9" y2="-34.49" xlink:href="#Degradado_sin_nombre_2"/>
+    <linearGradient id="Degradado_sin_nombre_8" data-name="Degradado sin nombre 8" x1="87.92" y1="18.61" x2="91.2" y2="2.99" gradientTransform="translate(-25.2 -3.55) rotate(23.48)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_8-2" data-name="Degradado sin nombre 8" x1="94.23" y1="23.92" x2="87.53" y2="49.64" xlink:href="#Degradado_sin_nombre_8"/>
+    <linearGradient id="Degradado_sin_nombre_2-4" data-name="Degradado sin nombre 2" x1="97.5" y1="71.78" x2="97.5" y2="42" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#Degradado_sin_nombre_2"/>
+    <linearGradient id="Degradado_sin_nombre_2-5" data-name="Degradado sin nombre 2" x1="125.17" y1="71.78" x2="125.17" y2="42" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#Degradado_sin_nombre_2"/>
+    <linearGradient id="Degradado_sin_nombre_2-6" data-name="Degradado sin nombre 2" x1="159.29" y1="71.78" x2="159.29" y2="42" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#Degradado_sin_nombre_2"/>
+    <linearGradient id="Degradado_sin_nombre_2-7" data-name="Degradado sin nombre 2" x1="193.55" y1="72.46" x2="193.55" y2="41.32" gradientTransform="matrix(1,0,0,1,0,0)" xlink:href="#Degradado_sin_nombre_2"/>
+  </defs>
+  <g class="cls-12">
+    <g id="_레이어_2" data-name="레이어 2">
+      <g id="_레이어_1-2" data-name="레이어 1">
+        <path class="cls-4" d="m71.59,74.07l-26.62,12.54L0,107.79l2.59-3.73,3.06-4.42,15.79-22.81,14-20.21-10.06-4.37c-8.03-3.49-8.21-14.81-.29-18.55l29.09-13.7L96.69,0l-18.03,26.03-17.41,25.13,10.06,4.37c8.04,3.49,8.21,14.81.29,18.55Z"/>
+        <g>
+          <path class="cls-1" d="m44.97,86.61L0,107.79l2.59-3.73,3.06-4.42,15.79-22.81c2.31,3.67,8.28,9.13,23.53,9.78Z"/>
+          <path class="cls-3" d="m96.69,0l-18.03,26.03c-6.68-4.56-16.18-5.91-24.48-6.01L96.69,0Z"/>
+        </g>
+        <path class="cls-10" d="m50.99,75.86L5.64,99.64l29.79-43.01,15.08,6.55c5.42,2.35,5.7,9.94.46,12.68Z"/>
+        <path class="cls-9" d="m61.24,51.15l-15.07-6.55c-5.42-2.35-5.69-9.93-.47-12.67l45.33-23.79-29.79,43.01Z"/>
+        <path class="cls-11" d="m53.41,39.43c-4.02-1.74-5.2-6.36-3.41-9.75l-4.29,2.25c-5.23,2.74-4.95,10.32.47,12.67l15.07,6.55,4.43-6.4-12.26-5.33Z"/>
+        <path class="cls-2" d="m50.52,63.18l-15.08-6.55-4.64,6.69,13.31,5.78c3.46,1.5,4.81,5.13,3.99,8.28l2.89-1.52c5.23-2.74,4.95-10.33-.46-12.68Z"/>
+        <g>
+          <path class="cls-6" d="m95.43,49.58v5.11h12.42v7.57h-12.42v9.53h-10.04v-29.78h24.21v7.57h-14.17Z"/>
+          <path class="cls-8" d="m137.55,64.21v7.57h-24.76v-29.78h24.21v7.57h-14.34v3.49h12.59v7.23h-12.59v3.91h14.89Z"/>
+          <path class="cls-7" d="m168.01,71.78l-.08-13.57-6.47,10.89h-4.42l-6.47-10.42v13.1h-9.15v-29.78h8.25l9.7,15.87,9.44-15.87h8.25l.08,29.78h-9.15Z"/>
+          <path class="cls-5" d="m180.13,69.4l3.23-7.32c2.81,1.66,6.55,2.72,9.83,2.72,2.85,0,3.87-.6,3.87-1.62,0-3.74-16.46-.72-16.46-11.83,0-5.53,4.64-10.04,13.87-10.04,4,0,8.13.85,11.23,2.6l-3.02,7.27c-2.94-1.49-5.7-2.21-8.3-2.21-2.94,0-3.87.85-3.87,1.87,0,3.57,16.46.6,16.46,11.57,0,5.45-4.64,10.04-13.87,10.04-4.98,0-10-1.23-12.97-3.06Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
