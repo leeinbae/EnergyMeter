@@ -88,12 +88,12 @@ const LayoutSider: React.FC = () => {
                         getItem('기준정보관리', 'sub2', <AppstoreOutlined />, [
                             getItem((
                                 <Link href="/vcode">
-                                    <a>벤더코드</a>
+                                    <a>업체코드</a>
                                 </Link>
                             ), 'vcode'),
                             getItem((
                                 <Link href="/mcode">
-                                    <a>계측기코드</a>
+                                    <a>계량기코드</a>
                                 </Link>
                             ), 'mcode'),
                             getItem((

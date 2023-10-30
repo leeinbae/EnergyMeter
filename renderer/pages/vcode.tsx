@@ -142,7 +142,7 @@ export default function CodePage() {
     ]);
 
     useEffect(() => {
-        document.getElementById("Breadcrumbtitle").innerHTML = "벤더코드관리";
+        document.getElementById("Breadcrumbtitle").innerHTML = "업체코드관리";
         console.log('useEffect dataSource', dataSource);
         //window.ipc.send('db', { req: 'setVcode',dataSource: dataSource})
     }   , [dataSource])
@@ -157,19 +157,19 @@ export default function CodePage() {
     // @ts-ignore
     const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
         {
-            title: 'v_code',
+            title: '코드',
             dataIndex: 'v_code',
             editable: true,
             width: '30%',
         },
         {
-            title: 'v_name',
+            title: '업체명',
             dataIndex: 'v_name',
             editable: true,
             width: '30%',
         },
         {
-            title: 'v_cal',
+            title: '환산계수',
             dataIndex: 'v_cal',
             align: 'right',
             editable: true,

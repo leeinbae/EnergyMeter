@@ -146,25 +146,25 @@ export default function CodePage() {
     // @ts-ignore
     const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
         {
-            title: 'v_code',
+            title: '업체코드',
             dataIndex: 'v_code',
             editable: true,
             width: '22%',
         },
         {
-            title: 'f_code',
+            title: '설비코드',
             dataIndex: 'f_code',
             editable: true,
             width: '22%',
         },
         {
-            title: 'f_name',
+            title: '설비명',
             dataIndex: 'f_name',
             editable: true,
             width: '22%',
         },
         {
-            title: 'f_factory',
+            title: '설비위치',
             dataIndex: 'f_factory',
             editable: true,
             width: '22%',

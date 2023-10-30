@@ -55,16 +55,16 @@ export default function NextPage() {
         //     dataIndex: "key"
         // },
         {
-            title: "업체",
+            title: "업체명",
             dataIndex: "v_name",
             onFilter: (value: string, record) => record.v_name.indexOf(value) === 0
         },
         {
-            title: "계량기",
+            title: "계량기명",
             dataIndex: "m_name"
         },
         {
-            title: "설비",
+            title: "설비명",
             dataIndex: "f_name"
         },
         {

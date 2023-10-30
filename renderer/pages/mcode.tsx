@@ -129,7 +129,7 @@ export default function CodePage() {
     const [dataSource, setDataSource] = useState<DataType[]>();
 
     useEffect(() => {
-        document.getElementById("Breadcrumbtitle").innerHTML = "계측기코드관리";
+        document.getElementById("Breadcrumbtitle").innerHTML = "계량기코드관리";
         console.log('useEffect dataSource', dataSource);
         //window.ipc.send('db', { req: 'setVcode',dataSource: dataSource})
     }   , [dataSource])
@@ -144,19 +144,19 @@ export default function CodePage() {
     // @ts-ignore
     const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
         {
-            title: 'v_code',
+            title: '업체코드',
             dataIndex: 'v_code',
             editable: true,
             width: '30%',
         },
         {
-            title: 'm_code',
+            title: '계량기코드',
             dataIndex: 'm_code',
             editable: true,
             width: '30%',
         },
         {
-            title: 'm_name',
+            title: '계량기명',
             dataIndex: 'm_name',
             editable: true,
             width: '30%',
