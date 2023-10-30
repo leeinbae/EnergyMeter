@@ -240,7 +240,7 @@ const save = () => {
                         <Row style={{justifyContent: 'space-between' }}>
                             <Col span={12}>
                                 <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                                    Add a row
+                                    추가
                                 </Button>
                             </Col>
                             <Col span={12} style={{textAlign:'right'}}>

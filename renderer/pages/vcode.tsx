@@ -157,7 +157,7 @@ export default function CodePage() {
     // @ts-ignore
     const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
         {
-            title: '코드',
+            title: '업체코드',
             dataIndex: 'v_code',
             editable: true,
             width: '30%',
@@ -254,7 +254,7 @@ const save = () => {
                         <Row style={{justifyContent: 'space-between' }}>
                             <Col span={12}>
                                 <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                                    Add a row
+                                    추가
                                 </Button>
                             </Col>
                             <Col span={12} style={{textAlign:'right'}}>

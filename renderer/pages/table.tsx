@@ -159,7 +159,7 @@ export default function NextPage() {
                         <Col span={6}><RangePicker onChange={onChange} style={{ width: '100%' }} /></Col>
                         <Col span={2}>
                             <Button type="primary" onClick={reload} icon={<ReloadOutlined  />}>
-                            새로 고침
+                            조회
                             </Button>
                         </Col>
                         <Col span={11}><Input.Search placeholder="조회 결과 필터" onSearch={search} enterButton /></Col>

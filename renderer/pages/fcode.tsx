@@ -164,7 +164,7 @@ export default function CodePage() {
             width: '22%',
         },
         {
-            title: '설비위치',
+            title: '설비위치(공장)',
             dataIndex: 'f_factory',
             editable: true,
             width: '22%',
@@ -249,7 +249,7 @@ const save = () => {
                         <Row style={{justifyContent: 'space-between' }}>
                             <Col span={12}>
                                 <Button onClick={handleAdd} type="primary" style={{ marginBottom: 16 }}>
-                                    Add a row
+                                    추가
                                 </Button>
                             </Col>
                             <Col span={12} style={{textAlign:'right'}}>
