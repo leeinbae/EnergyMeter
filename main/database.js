@@ -124,5 +124,77 @@ export function setVcode(dataSource) {
     return true;
 }
 
+export function getMcode() {
+    return new Promise((resolve, reject) => {
+        const db = connect();
+        db.all('SELECT rowid AS key, * FROM meter_t ORDER BY v_code,m_code',[] ,(err, rows) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(rows);
+        });
+        db.close();
+    });
+}
+
+export function setMcode(dataSource) {
+
+    const db = connect();
+
+    console.log('set dataSource : ', dataSource);
+
+    if(dataSource.length !== 0){
+        db.run("DELETE FROM meter_t");
+    }
+
+    for (const srcrow of dataSource) {
+        console.log('row : ', srcrow);
+
+        db.run("INSERT INTO meter_t (v_code, m_code, m_name) VALUES (?, ?, ?)", srcrow["v_code"], srcrow["m_code"], srcrow["m_name"]);
+
+    }
+
+    db.close();
+
+    return true;
+}
+
+export function getFcode() {
+    return new Promise((resolve, reject) => {
+        const db = connect();
+        db.all('SELECT rowid AS key, v_code, f_code, f_name, f_factory FROM facility_t ORDER BY v_code, f_code',[] ,(err, rows) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(rows);
+        });
+        db.close();
+    });
+}
+
+export function setFcode(dataSource) {
+
+    const db = connect();
+
+    console.log('set dataSource : ', dataSource);
+
+    if(dataSource.length !== 0){
+        db.run("DELETE FROM facility_t");
+    }
+
+    for (const srcrow of dataSource) {
+        console.log('row : ', srcrow);
+
+        db.run("INSERT INTO facility_t (v_code, f_code, f_name, f_factory) VALUES (?, ?, ?, ?)", srcrow["v_code"], srcrow["f_code"], srcrow["f_name"], srcrow["f_factory"]);
+
+    }
+
+    db.close();
+
+    return true;
+}
+
 // Export functions
 export default getUsage;

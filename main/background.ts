@@ -2,7 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import {getUsage, getVcode, setVcode, upsertUsage} from './database'
+import {getFcode, getMcode, getUsage, getVcode, setFcode, setMcode, setVcode, upsertUsage} from './database'
 import fs from "fs"
 import * as os from "os";
 
@@ -69,10 +69,23 @@ ipcMain.on('db', async (event, arg) => {
       })
       break;
     case 'setVcode':
-      const status = setVcode(arg['dataSource'])
-        console.log('setVcode status:',status)
-        //event.reply('db', status)
-
+      setVcode(arg['dataSource'])
+      break;
+    case 'getMcode':
+      getMcode().then((rows) => {
+        event.reply('db', rows)
+      })
+      break;
+    case 'setMcode':
+      setMcode(arg['dataSource'])
+      break;
+    case 'getFcode':
+      getFcode().then((rows) => {
+        event.reply('db', rows)
+      })
+      break;
+    case 'setFcode':
+      setFcode(arg['dataSource'])
       break;
     default:
       console.log("Unknown");

@@ -6,16 +6,8 @@ import type { MenuProps } from 'antd';
 import Head from "next/head";
 import Link from 'next/link';
 const { Header, Sider, Content } = Layout;
-import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-} from '@ant-design/icons';
 
 const LayoutSider: React.FC = () => {
-
 
     const {
         token: { colorBgContainer },
@@ -39,6 +31,23 @@ const LayoutSider: React.FC = () => {
         console.log('setCurrentmenu-currentmenu', currentmenu);
 
     };
+
+    type MenuItem = Required<MenuProps>['items'][number];
+    function getItem(
+        label: React.ReactNode,
+        key: React.Key,
+        icon?: React.ReactNode,
+        children?: MenuItem[],
+        type?: 'group',
+    ): MenuItem {
+        return {
+            key,
+            icon,
+            children,
+            label,
+            type,
+        } as MenuItem;
+    }
 
     return (
 
@@ -76,15 +85,24 @@ const LayoutSider: React.FC = () => {
                             key: 'table',
                             icon: <LineChartOutlined />
                         },
-                        {
-                            label:  (
-                                <Link href="/code">
-                                    <a>기준정보관리</a>
+                        getItem('기준정보관리', 'sub2', <AppstoreOutlined />, [
+                            getItem((
+                                <Link href="/vcode">
+                                    <a>벤더코드</a>
                                 </Link>
-                            ),
-                            key: 'code',
-                            icon: <SettingOutlined />
-                        }
+                            ), 'vcode'),
+                            getItem((
+                                <Link href="/mcode">
+                                    <a>계측기코드</a>
+                                </Link>
+                            ), 'mcode'),
+                            getItem((
+                                <Link href="/fcode">
+                                    <a>설비코드</a>
+                                </Link>
+                            ), 'fcode'),
+                        ]),
+
                     ]}
                 />
             </Sider>
