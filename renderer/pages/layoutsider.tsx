@@ -77,7 +77,11 @@ const LayoutSider: React.FC = () => {
                             icon: <LineChartOutlined />
                         },
                         {
-                            label: '기준정보관리',
+                            label:  (
+                                <Link href="/code">
+                                    <a>기준정보관리</a>
+                                </Link>
+                            ),
                             key: 'code',
                             icon: <SettingOutlined />
                         }

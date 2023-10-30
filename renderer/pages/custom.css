@@ -25,3 +25,7 @@ html, body {
 .ant-layout-footer {
     padding: 16px 16px 16px 220px;
 }
+
+.canvas-size {
+    min-width: 1024px;
+}

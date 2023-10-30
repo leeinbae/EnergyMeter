@@ -30,7 +30,7 @@ export default function NextPage() {
     const [message, setMessage] = React.useState('No message found')
     const [dataSource, setDataSource] = React.useState();
     const [filtered, setFiltered] = React.useState();
-    const [dateString, setDateString] = React.useState();
+    let [dateString, setDateString] = React.useState();
     const [breadcrumbitems, setBreadcrumbitems] = React.useState();
 
     React.useEffect(() => {
@@ -127,39 +127,43 @@ export default function NextPage() {
 
     const reload = () => {
         console.log('useState dateString: ', dateString)
+        if(dateString == null) {
+            // @ts-ignore
+            dateString = ['00000000', '99999999'];
+        }
         // @ts-ignore
         window.ipc.send('db', { req: 'getUsage', u_date_from: dateString[0].replace(/-/g, ''), u_date_to: dateString[1].replace(/-/g, '') })
     };
 
     const exportToExcel = () => {
         const excel = new Excel();
-        excel
-            .addSheet("fems")
-            .addColumns(columns)
-            .addDataSource(dataSource, {
-                str2Percent: true
-            })
-            .saveAs("Excel.xlsx");
+        // excel
+        //     .addSheet("fems")
+        //     .addColumns(columns)
+        //     .addDataSource(dataSource, {
+        //         str2Percent: true
+        //     })
+        //     .saveAs("Excel.xlsx");
     };
 
 
 
     return (
 
-        <Layout style={{padding: 0}}>
+        <Layout>
             <LayoutSider/>
             <Layout >
                 <LayoutHeader/>
-                <Content>
+                <Content className={'canvas-size'}>
                     <Row style={{justifyContent: 'space-between' }}>
-                        <Col span={4}><RangePicker onChange={onChange} style={{ width: '100%' }} /></Col>
+                        <Col span={6}><RangePicker onChange={onChange} style={{ width: '100%' }} /></Col>
                         <Col span={2}>
                             <Button type="primary" onClick={reload} icon={<ReloadOutlined  />}>
                             새로 고침
                             </Button>
                         </Col>
-                        <Col span={14}><Input.Search placeholder="조회 결과 필터" onSearch={search} enterButton /></Col>
-                        <Col span={2}>
+                        <Col span={11}><Input.Search placeholder="조회 결과 필터" onSearch={search} enterButton /></Col>
+                        <Col span={3}>
                             <div style={{ textAlign: 'center'}}>
                                 <Button type="primary" onClick={exportToExcel} icon={<DownloadOutlined  />}>
                                 엑셀 다운로드

@@ -21,6 +21,7 @@ const LayoutHeader: React.FC = () => {
                     display: 'flex',
                     alignItems: 'center',
                 }}
+                className={'canvas-size'}
             >
                 <div className="logo">
                     <img src="/images/fems.svg" alt="logo" />

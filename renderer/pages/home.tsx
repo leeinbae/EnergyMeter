@@ -14,17 +14,9 @@ export default function HomePage() {
             <LayoutSider/>
             <Layout >
                 <LayoutHeader/>
-                <Content>
+                <Content style={{backgroundColor:'#4cabf7'}}>
+                    <div style={{textAlign:'center'}}><img src="/images/home.png" alt='Energy' style={{width:'620px'}}/></div>
 
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
-                    <Result status="success" title="FEMS" subTitle="IMPIX" />
                 </Content>
                 <LayoutFooter/>
             </Layout>

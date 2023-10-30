@@ -2,7 +2,7 @@ import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import {getUsage, upsertUsage} from './database'
+import {getUsage, getVcode, setVcode, upsertUsage} from './database'
 import fs from "fs"
 import * as os from "os";
 
@@ -30,8 +30,8 @@ if(!fs.existsSync(path.join(userDataDirectory, 'database.db'))){
   await app.whenReady()
 
   const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
+    width: 1200,
+    height: 900,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -42,7 +42,7 @@ if(!fs.existsSync(path.join(userDataDirectory, 'database.db'))){
   } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/home`)
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
   }
 })()
 
@@ -56,16 +56,23 @@ ipcMain.on('message', async (event, arg) => {
 
 
 ipcMain.on('db', async (event, arg) => {
-
+    console.log(arg);
     switch (arg['req']) {
     case 'getUsage':
-      console.log(arg);
       getUsage(arg['u_date_from'],arg['u_date_to']).then((rows) => {
         event.reply('db', rows)
         })
       break;
-    case 3:
-      console.log("Three");
+    case 'getVcode':
+      getVcode().then((rows) => {
+        event.reply('db', rows)
+      })
+      break;
+    case 'setVcode':
+      const status = setVcode(arg['dataSource'])
+        console.log('setVcode status:',status)
+        //event.reply('db', status)
+
       break;
     default:
       console.log("Unknown");
@@ -105,6 +112,32 @@ if (!fs.existsSync(monitoredFolder)) {
 if (!fs.existsSync(archiveFolder)) {
   fs.mkdirSync(archiveFolder);
 }
+//monitoredFolder 비우기 (초기화)
+fs.readdir(monitoredFolder, (err, files) => {
+  if (err) {
+    console.error('폴더를 읽을 수 없습니다:', err);
+    return;
+  }
+
+  files.forEach((file) => {
+    const filePath = path.join(monitoredFolder, file);
+    fs.stat(filePath, (err, stats) => {
+      if (err) {
+        console.error('파일 정보를 가져올 수 없습니다:', err);
+        return;
+      }
+
+      if (stats.isFile()) {
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            console.error('파일을 삭제할 수 없습니다:', err);
+          }
+        });
+      }
+    });
+  });
+});
+
 
 
 // 파일을 SQLite에 삽입하는 함수
@@ -113,33 +146,6 @@ function insertFileToDatabase(filePath) {
   // csv 파일 읽기
   const csvData = fs.readFileSync(filePath, "utf8");
   upsertUsage(csvData);
-}
-
-// 폴더를 감시하고 새 파일이 들어오면 처리하는 함수
-function watchFolder() {
-  fs.readdir(monitoredFolder, (err, files) => {
-    if (err) {
-      console.error('폴더를 읽을 수 없습니다:', err);
-      return;
-    }
-
-    files.forEach((file) => {
-      const filePath = path.join(monitoredFolder, file);
-
-
-
-      // 파일을 SQLite에 삽입
-      insertFileToDatabase(filePath);
-
-      // 파일을 보관 폴더로 이동
-      const archivePath = path.join(archiveFolder, file);
-      fs.rename(filePath, archivePath, (err) => {
-        if (err) {
-          console.error('파일을 이동할 수 없습니다:', err);
-        }
-      });
-    });
-  });
 }
 
 // 스케줄링: 매일 자정에 보관 기간이 지난 파일 삭제
@@ -192,11 +198,11 @@ fs.watch(monitoredFolder, { encoding: 'utf-8' }, (eventType, filename) => {
 
           // 파일을 보관 폴더로 이동
           const archivePath = path.join(archiveFolder, filename);
-          // fs.rename(filePath, archivePath, (err) => {
-          //   if (err) {
-          //     console.error('파일을 이동할 수 없습니다:', err);
-          //   }
-          // });
+          fs.rename(filePath, archivePath, (err) => {
+            if (err) {
+              console.error('파일을 이동할 수 없습니다:', err);
+            }
+          });
 
         }
 

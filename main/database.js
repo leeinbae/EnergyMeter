@@ -75,5 +75,54 @@ export async function upsertUsage(csvData) {
     await db.close();
 }
 
+export function getVcode() {
+    return new Promise((resolve, reject) => {
+        const db = connect();
+        db.all('SELECT rowid AS key, * FROM vend_t ORDER BY v_code',[] ,(err, rows) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(rows);
+        });
+        db.close();
+    });
+}
+
+export function setVcode(dataSource) {
+
+    const db = connect();
+
+    console.log('setVcode dataSource : ', dataSource);
+
+    if(dataSource.length !== 0){
+        db.run("DELETE FROM vend_t");
+    }
+
+    for (const srcrow of dataSource) {
+        console.log('row : ', srcrow);
+
+        db.run("INSERT INTO vend_t (v_code, v_name, v_cal) VALUES (?, ?, ?)", srcrow["v_code"], srcrow["v_name"], srcrow["v_cal"]);
+
+        // db.get('SELECT * FROM vend_t WHERE v_code = ? ', [srcrow["v_code"]], (err, row) => {
+        //     if (err) {
+        //         throw err;
+        //     }
+        //     // 레코드가 존재하는 경우
+        //     if (row) {
+        //         console.log('UPDATE');
+        //         db.run("UPDATE vend_t SET v_name = ? , v_cal = ? WHERE v_code = ?  ", srcrow["v_name"],srcrow["v_cal"],srcrow["v_code"]);
+        //     } else {
+        //         console.log('INSERT');
+        //         db.run("INSERT INTO vend_t (v_code, v_name, v_cal) VALUES (?, ?, ?)", srcrow["v_code"], srcrow["v_name"], srcrow["v_cal"]);
+        //     }
+        // });
+    }
+
+    db.close();
+
+    return true;
+}
+
 // Export functions
 export default getUsage;
