@@ -24,6 +24,10 @@ const LayoutSider: React.FC = () => {
         setCurrentmenu(router.pathname.replace("/", ""));
     }, [])
 
+    React.useEffect(() => {
+        console.log('setCurrentmenu -> currentmenu', currentmenu);
+    }, [currentmenu])
+
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
         // @ts-ignore
@@ -62,9 +66,11 @@ const LayoutSider: React.FC = () => {
                    }}>
                 <div className="logo-vertical" />
                 <Menu
+                    onClick={onClick}
                     theme="dark"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
+                    selectedKeys={[currentmenu]}
+                    defaultOpenKeys={['sub1']}
                     items={[
                         {
                             label: (
@@ -85,7 +91,7 @@ const LayoutSider: React.FC = () => {
                             key: 'table',
                             icon: <LineChartOutlined />
                         },
-                        getItem('기준정보관리', 'sub2', <AppstoreOutlined />, [
+                        getItem('기준정보관리', 'sub1', <AppstoreOutlined />, [
                             getItem((
                                 <Link href="/vcode">
                                     <a>업체코드</a>

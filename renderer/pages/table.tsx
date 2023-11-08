@@ -1,6 +1,7 @@
 import React from 'react'
+import dayjs from 'dayjs';
 import {Layout, Table, Input, Tabs, DatePicker, Row, Col, DatePickerProps, Button} from 'antd'
-import type { ColumnsType } from 'antd/es/table'
+import type { ColumnsType,TablePaginationConfig } from 'antd/es/table'
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
 import dynamic from "next/dynamic";
@@ -8,7 +9,13 @@ import LayoutSider from "./layoutsider";
 import {DownloadOutlined,ReloadOutlined} from "@ant-design/icons";
 const { Content } = Layout;
 const { RangePicker } = DatePicker;
+// const ipcRenderer = require("electron").ipcRenderer;
 import { Excel } from "antd-table-saveas-excel";
+// import IExcelColumn from "antd-table-saveas-excel";
+
+const dateFormat = 'YYYY-MM-DD';
+const today = new Date();
+const YYYYMMDD = today.toISOString().substring(0, 10);
 
 const Line = dynamic(() => import('@ant-design/plots').then(({ Line }) => Line), { ssr: false, });
 
@@ -30,22 +37,23 @@ export default function NextPage() {
     const [message, setMessage] = React.useState('No message found')
     const [dataSource, setDataSource] = React.useState();
     const [filtered, setFiltered] = React.useState();
-    let [dateString, setDateString] = React.useState();
-    const [breadcrumbitems, setBreadcrumbitems] = React.useState();
+    let [dateString, setDateString] = React.useState([YYYYMMDD, YYYYMMDD]);
+    //const [breadcrumbitems, setBreadcrumbitems] = React.useState();
+    //const [rangevalue, setRangeValue] = React.useState([new Date(), new Date()]);
 
     React.useEffect(() => {
 
         document.getElementById("Breadcrumbtitle").innerHTML = "에너지 사용량 조회";
 
-        window.ipc.on('message', (message: string) => {
-            setMessage(message)
-        })
         window.ipc.on('db', (rows) => {
             console.log(rows)
             // @ts-ignore
             setDataSource(rows);
         })
-        window.ipc.send('db', { req: 'getUsage', u_date_from: '00000000', u_date_to: '99999999' })
+        console.log('useEffect dateString', dateString);
+
+        //window.ipc.send('db', { req: 'getUsage', u_date_from: '00000000', u_date_to: '99999999' });
+        window.ipc.send('db', { req: 'getUsage', u_date_from: dateString[0].replace(/-/g, ''), u_date_to: dateString[1].replace(/-/g, '') });
     }, [])
 
 
@@ -83,6 +91,7 @@ export default function NextPage() {
             title: "사용량",
             dataIndex: "u_usage",
             align: 'right',
+            render: (number) => <span>{number.toFixed(2)}</span>,
         }
     ];
 
@@ -136,16 +145,22 @@ export default function NextPage() {
     };
 
     const exportToExcel = () => {
-        const excel = new Excel();
-        // excel
-        //     .addSheet("fems")
-        //     .addColumns(columns)
-        //     .addDataSource(dataSource, {
-        //         str2Percent: true
-        //     })
-        //     .saveAs("Excel.xlsx");
-    };
 
+
+        // SaveAsExcel({
+        //     table: document.getElementById('UsageTable'),
+        //     filename: 'UsageTable.xlsx',
+        // })
+        console.log(typeof columns)
+
+        const excel = new Excel();
+        // @ts-ignore
+        excel.addSheet("fems").addColumns(columns)
+            .addDataSource(dataSource, {
+                str2Percent: true
+            })
+            .saveAs("Excel.xlsx");
+    };
 
 
     return (
@@ -156,7 +171,7 @@ export default function NextPage() {
                 <LayoutHeader/>
                 <Content className={'canvas-size'}>
                     <Row style={{justifyContent: 'space-between' }}>
-                        <Col span={6}><RangePicker onChange={onChange} style={{ width: '100%' }} /></Col>
+                        <Col span={6}><RangePicker onChange={onChange} style={{ width: '100%' }} defaultValue={[dayjs(dateString[0], dateFormat), dayjs(dateString[1], dateFormat)]} /></Col>
                         <Col span={2}>
                             <Button type="primary" onClick={reload} icon={<ReloadOutlined  />}>
                             조회
@@ -176,7 +191,30 @@ export default function NextPage() {
 
                     <Tabs>
                         <Tabs.TabPane tab="에너지 사용량 조회" key="1">
-                            <Table bordered columns={columns}  dataSource={filtered == null ? dataSource : filtered} />
+                            <Table id="UsageTable" bordered columns={columns}  dataSource={filtered == null ? dataSource : filtered}
+                                   pagination={{pageSizeOptions:[14,50],defaultPageSize:14, showSizeChanger:true, position: ['bottomRight']}}
+                                   summary={(pageData) => {
+                                       let totalUsage = 0;
+
+                                       pageData.forEach(({ u_usage }) => {
+                                           totalUsage += u_usage;
+                                       });
+
+                                       return (
+
+                                           <>
+                                               <Table.Summary.Row style={{ backgroundColor: "#FFFBF5" }}>
+                                                   <Table.Summary.Cell index={0} colSpan={4} align={'right'}>일일 누적사용량[kWh]</Table.Summary.Cell>
+                                                   <Table.Summary.Cell index={1} align={'right'} >
+                                                       {totalUsage.toFixed(2)}
+                                                   </Table.Summary.Cell>
+                                               </Table.Summary.Row>
+
+                                           </>
+                                       );
+                                   }}
+
+                            />
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="기간 별 모니터링" key="2">
                             <Line {...config} />
