@@ -11,7 +11,7 @@ const { Content } = Layout;
 const { RangePicker } = DatePicker;
 // const ipcRenderer = require("electron").ipcRenderer;
 import { Excel } from "antd-table-saveas-excel";
-// import IExcelColumn from "antd-table-saveas-excel";
+
 
 const dateFormat = 'YYYY-MM-DD';
 const today = new Date();
@@ -91,7 +91,7 @@ export default function NextPage() {
             title: "사용량",
             dataIndex: "u_usage",
             align: 'right',
-            render: (number) => <span>{number.toFixed(2)}</span>,
+            render: (number) => <div style={{textAlign:'right'}}>{number.toFixed(2)}</div>,
         }
     ];
 
@@ -144,6 +144,35 @@ export default function NextPage() {
         window.ipc.send('db', { req: 'getUsage', u_date_from: dateString[0].replace(/-/g, ''), u_date_to: dateString[1].replace(/-/g, '') })
     };
 
+    const excelColumns = [
+        {
+            title: '업체명',
+            dataIndex: 'v_name',
+            textAlign: 'right',
+        },
+        {
+            title: '계량기명',
+            dataIndex: 'm_name',
+            textAlign: 'right',
+        },
+        {
+            title: '설비명',
+            dataIndex: 'f_name',
+            textAlign: 'center',
+        },
+        {
+            title: '사용일시',
+            dataIndex: 'u_date',
+            style: {
+                textAlign: 'center',
+            },
+        },
+        {
+            title: '사용량',
+            dataIndex: 'u_usage',
+            textAlign: 'right',
+        }
+    ];
     const exportToExcel = () => {
 
 
@@ -151,17 +180,16 @@ export default function NextPage() {
         //     table: document.getElementById('UsageTable'),
         //     filename: 'UsageTable.xlsx',
         // })
-        console.log(typeof columns)
+        // console.log(typeof columns)
 
         const excel = new Excel();
         // @ts-ignore
-        excel.addSheet("fems").addColumns(columns)
+        excel.addSheet("fems").addColumns(excelColumns)
             .addDataSource(dataSource, {
                 str2Percent: true
             })
-            .saveAs("Excel.xlsx");
+            .saveAs("FEMS"+dateString[0]+"~"+dateString[1]+".xlsx");
     };
-
 
     return (
 
@@ -204,7 +232,7 @@ export default function NextPage() {
 
                                            <>
                                                <Table.Summary.Row style={{ backgroundColor: "#FFFBF5" }}>
-                                                   <Table.Summary.Cell index={0} colSpan={4} align={'right'}>일일 누적사용량[kWh]</Table.Summary.Cell>
+                                                   <Table.Summary.Cell index={0} colSpan={4} align={'right'}>합계[kWh]</Table.Summary.Cell>
                                                    <Table.Summary.Cell index={1} align={'right'} >
                                                        {totalUsage.toFixed(2)}
                                                    </Table.Summary.Cell>
