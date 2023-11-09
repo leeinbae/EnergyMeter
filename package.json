@@ -2,7 +2,7 @@
   "private": true,
   "name": "EnergyMeter",
   "description": "Factory Energy Monitoring",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "IMPIX",
   "main": "app/background.js",
   "scripts": {
@@ -22,7 +22,6 @@
   "dependencies": {
     "@ant-design/plots": "^1.2.5",
     "antd-table-saveas-excel": "^2.2.1",
-    "better-sqlite3": "^9.0.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "node-schedule": "^2.1.1",
