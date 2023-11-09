@@ -38,36 +38,23 @@ export async function upsertUsage(csvData) {
 
         const values = row.split(",");
         console.log('u_date : ', values[3]);
-
-        db.get('SELECT * FROM usage_t WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ?', [values[0], values[1], values[2], values[3]], async (err, row) => {
-            if (err) {
-                throw err;
-            }
-            // row is an object representing the first record that matches the condition
-            console.log(row);
-            // 레코드가 존재하는 경우
-            if (row) {
-                console.log('UPDATE');
-                await db.run("UPDATE usage_t SET u_usage = ? WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ? ", values[4], values[0], values[1], values[2], values[3]);
-            } else {
-                console.log('INSERT');
-                await db.run("INSERT INTO usage_t (v_code, m_code, f_code, u_date, u_usage) VALUES (?, ?, ?, ?, ?)", values[0], values[1], values[2], values[3], values[4]);
-            }
-        });
-
-
-        // const results = await db.all("SELECT COUNT() FROM usage_t WHERE u_date = ?", values[3]);
-        //
-        // console.log('results : ', results);
-        //
-        // // 레코드가 존재하는 경우
-        // if (results > 0) {
-        //     console.log('UPDATE');
-        //     await db.run("UPDATE usage_t SET v_code = ?, m_code = ?, f_code = ?, u_usage = ? WHERE u_date = ?", values[0], values[1], values[2], values[4], values[3]);
-        // } else {
-        //     console.log('INSERT');
-        //     await db.run("INSERT INTO usage_t (v_code, m_code, f_code, u_date, u_usage) VALUES (?, ?, ?, ?, ?)", values[0], values[1], values[2], values[3], values[4]);
-        // }
+        if(values[3]!==undefined){
+            db.get('SELECT * FROM usage_t WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ?', [values[0], values[1], values[2], values[3]], async (err, row) => {
+                if (err) {
+                    throw err;
+                }
+                // row is an object representing the first record that matches the condition
+                console.log(row);
+                // 레코드가 존재하는 경우
+                if (row) {
+                    console.log('UPDATE');
+                    await db.run("UPDATE usage_t SET u_usage = ? WHERE v_code = ? AND m_code = ? AND f_code = ? AND u_date = ? ", values[4], values[0], values[1], values[2], values[3]);
+                } else {
+                    console.log('INSERT');
+                    await db.run("INSERT INTO usage_t (v_code, m_code, f_code, u_date, u_usage) VALUES (?, ?, ?, ?, ?)", values[0], values[1], values[2], values[3], values[4]);
+                }
+            });
+        }
 
     }
 

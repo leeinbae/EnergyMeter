@@ -205,7 +205,7 @@ fs.watch(monitoredFolder, { encoding: 'utf-8' }, (eventType, filename) => {
       if (stats.isFile()) {
 
         const extension = filename.split(".")[1];
-        if (filename.includes("raw") && extension === "csv") {
+        if (extension === "csv") {
 
           insertFileToDatabase(filePath);
 
