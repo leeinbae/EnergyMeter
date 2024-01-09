@@ -107,6 +107,11 @@ const LayoutSider: React.FC = () => {
                                     <a>설비코드</a>
                                 </Link>
                             ), 'fcode'),
+                            getItem((
+                                <Link href="/config">
+                                    <a>설정</a>
+                                </Link>
+                            ), 'config'),
                         ]),
 
                     ]}

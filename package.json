@@ -23,9 +23,11 @@
     "@ant-design/plots": "^1.2.5",
     "antd-table-saveas-excel": "^2.2.1",
     "electron-log": "^5.0.1",
+    "electron-progressbar": "^2.1.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "electron-updater": "^6.1.4",
+    "jsmodbus": "^4.0.10",
     "node-schedule": "^2.1.1",
     "sqlite3": "^5.1.6"
   },

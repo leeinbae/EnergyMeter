@@ -2,7 +2,8 @@ import path from 'path'
 import { app, ipcMain,dialog } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import {getFcode, getMcode, getUsage, getVcode, setFcode, setMcode, setVcode, upsertUsage} from './database'
+import {getFcode, getMcode, getUsage, getVcode, setFcode, setMcode, setVcode, upsertUsage,getConfig} from './database'
+import {getRead} from './modbus'
 import fs from "fs"
 import * as os from "os";
 
@@ -30,6 +31,28 @@ console.log('app.getPath userData:',app.getPath('userData'))
 console.log('__dirname:',__dirname)
 console.log('process.resourcesPath:',process.resourcesPath)
 console.log('path.join__dirname+database.db:',path.join(__dirname, '../database.db'))
+
+// MODBUS
+let modbus_options = {
+  'host': '127.0.0.1',
+  'port': '501'
+};
+getConfig().then((rows) => {
+  console.log(rows);
+  if(rows === -1){
+    fs.writeFileSync(`${userDataDirectory}/database.db`, existingSqliteFile);
+  }else{
+    //getRead();
+  }
+  getConfig().then((rows) => {
+    console.log(rows);
+    modbus_options = {
+      'host': rows[0].modbus_host,
+      'port': rows[0].modbus_port
+    };
+  });
+});
+
 if(!fs.existsSync(path.join(userDataDirectory, 'database.db'))){
   fs.writeFileSync(`${userDataDirectory}/database.db`, existingSqliteFile);
 }
@@ -55,6 +78,10 @@ if(!fs.existsSync(path.join(userDataDirectory, 'database.db'))){
 
   // 자동 업데이트 등록
   await autoUpdater.checkForUpdates();
+
+  // getRead().then((rows) => {
+  //   console.log(rows)
+  // })
 
 })()
 
@@ -157,6 +184,17 @@ ipcMain.on('db', async (event, arg) => {
     case 'setFcode':
       setFcode(arg['dataSource'])
       break;
+    case 'getConfig':
+      getConfig().then((rows) => {
+          console.log('getConfig ',rows);
+          event.reply('db', rows)
+        })
+        break;
+     case 'getRead':
+       getRead(modbus_options).then((rows) => {
+          event.reply('db', rows)
+        })
+        break;
     default:
       console.log("Unknown");
     }

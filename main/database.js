@@ -183,5 +183,20 @@ export function setFcode(dataSource) {
     return true;
 }
 
+export function getConfig() {
+    return new Promise((resolve, reject) => {
+        const db = connect();
+        db.all('SELECT * FROM config_t',[] ,(err, rows) => {
+            if (err) {
+                resolve(-1);
+                //reject(err);
+                return;
+            }
+            resolve(rows);
+        });
+        db.close();
+    });
+}
+
 // Export functions
 export default getUsage;
