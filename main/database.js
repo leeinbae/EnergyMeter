@@ -198,5 +198,13 @@ export function getConfig() {
     });
 }
 
+export function setModbus(modbus_options) {
+
+    const db = connect();
+
+     db.run("UPDATE config_t SET modbus_host = ? , modbus_port = ? ", modbus_options.host,modbus_options.port);
+
+     db.close();
+}
 // Export functions
 export default getUsage;

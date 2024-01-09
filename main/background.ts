@@ -2,7 +2,7 @@ import path from 'path'
 import { app, ipcMain,dialog } from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
-import {getFcode, getMcode, getUsage, getVcode, setFcode, setMcode, setVcode, upsertUsage,getConfig} from './database'
+import {getFcode, getMcode, getUsage, getVcode, setFcode, setMcode, setVcode, upsertUsage,getConfig,setModbus} from './database'
 import {getRead} from './modbus'
 import fs from "fs"
 import * as os from "os";
@@ -98,7 +98,7 @@ autoUpdater.on('update-available', () => {
         type: 'info',
         title: 'Update available',
         message:
-            'A new version of Project is available. Do you want to update now?',
+            'A new version is available. Do you want to update now?',
         buttons: ['Update', 'Later'],
       })
       .then((result) => {
@@ -191,9 +191,23 @@ ipcMain.on('db', async (event, arg) => {
         })
         break;
      case 'getRead':
+       modbus_options = {
+            'host': arg['modbusHost'],
+            'port': arg['modbusPort']
+       }
+       console.log('getRead modbus_options',modbus_options);
        getRead(modbus_options).then((rows) => {
-          event.reply('db', rows)
+         console.log('getRead ',rows);
+         // event.reply('db', rows)
         })
+        break;
+     case 'setModbus':
+       modbus_options = {
+            'host': arg['modbusHost'],
+            'port': arg['modbusPort']
+       }
+       setModbus(modbus_options);
+
         break;
     default:
       console.log("Unknown");

@@ -14,7 +14,10 @@ let isConnected = false;
 
 
 export function getRead(modbus_options) {
+    console.log('modbus_options : ', modbus_options);
     return new Promise((resolve, reject) => {
+
+        console.log('isConnected : ', isConnected)
         if(!isConnected){
             socket.connect(modbus_options);
         }

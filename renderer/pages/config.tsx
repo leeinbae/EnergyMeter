@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import {Breadcrumb, Col, Layout, Menu, Result, Row, Tag} from 'antd';
+import {Breadcrumb, Col, Divider, Flex, Layout, Menu, message, Result, Row, Tag} from 'antd';
 import LayoutHeader from "./layoutheader";
 import LayoutFooter from "./layoutfooter";
 import LayoutSider from "./layoutsider";
@@ -24,6 +24,11 @@ type FieldType = {
 
 export default function ConfigPage() {
 
+    const [form] = Form.useForm();
+    const [dataSource, setDataSource] = useState<FieldType[]>();
+    const [modbusHost, setModbusHost] = useState('127.0.0.1');
+    const [modbusPort, setModbusPort] = useState('501');
+
     useEffect(() => {
         window.ipc.on('db', (rows) => {
             // @ts-ignore
@@ -31,11 +36,6 @@ export default function ConfigPage() {
         })
         window.ipc.send('db', { req: 'getConfig'})
     }   , [])
-
-    const [form] = Form.useForm();
-    const [dataSource, setDataSource] = useState<FieldType[]>();
-    const [modbusHost, setModbusHost] = useState('127.0.0.1');
-    const [modbusPort, setModbusPort] = useState('501');
 
     useEffect(() => {
         document.getElementById("Breadcrumbtitle").innerHTML = "설정";
@@ -51,18 +51,31 @@ export default function ConfigPage() {
     }   , [dataSource]);
 
     useEffect(() => {
-        console.log('>>>> modbusHost',modbusHost);
-        console.log('>>>> modbusPort',modbusPort);
+            console.log('>>>> modbusHost',modbusHost);//112.185.231.242
+        console.log('>>>> modbusPort',modbusPort);//5001
+        form.setFieldsValue({ modbus_host: modbusHost, modbus_port: modbusPort });
     }   , [modbusHost,modbusPort]);
 
 
     const save = () => {
-        window.ipc.send('db', { req: 'setFcode',dataSource: dataSource});
+        window.ipc.send('db', { req: 'setModbus',modbusHost: modbusHost, modbusPort: modbusPort});
     }
 
     const getRead = () => {
-        window.ipc.send('db', { req: 'getRead',args: {modbusHost: modbusHost, modbusPort: modbusPort}});
+        console.log('getRead >>>> modbusHost',modbusHost);
+        console.log('getRead >>>> modbusPort',modbusPort);
+        window.ipc.send('db', { req: 'getRead',modbusHost: modbusHost, modbusPort: modbusPort});
     }
+
+    const confirm = (e: React.MouseEvent<HTMLElement>) => {
+        console.log(e);
+        message.success('초기화 작업이 수행되었습니다.');
+    };
+
+    const cancel = (e: React.MouseEvent<HTMLElement>) => {
+        console.log(e);
+        message.error('데이터베이스 초기화 작업을 취소하였습니다.');
+    };
 
     return (
 
@@ -83,6 +96,10 @@ export default function ConfigPage() {
                                 </Button>
                             </Col>
                         </Row>
+
+                        <Divider orientation="left" plain>
+                            <b>MODBUS</b>
+                        </Divider>
 
                         <Form
                             form={form}
@@ -107,7 +124,7 @@ export default function ConfigPage() {
                                 name="modbus_port"
                                 rules={[{ required: true, message: 'Fill in value' }]}
                             >
-                                <Input />
+                                <Input onChange={(e) => setModbusPort(e.target.value)}/>
                             </Form.Item>
 
                             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -115,7 +132,38 @@ export default function ConfigPage() {
                                     MODBUS/TCP TEST
                                 </Button>
                             </Form.Item>
+
+
+                            <Divider orientation="left" plain>
+                                <b>DATABASE</b>
+                            </Divider>
+
+                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                <Flex gap="small" wrap="wrap">
+                                    <Popconfirm
+                                        title="데이터 베이스 초기화"
+                                        description="초기화 작업을 수행하시겠습니까?"
+                                        onConfirm={confirm}
+                                        onCancel={cancel}
+                                        okText="Yes"
+                                        cancelText="No"
+                                    >
+                                        <Button type="primary" danger>
+                                            초기화
+                                        </Button>
+                                    </Popconfirm>
+                                    <Button type="primary" >
+                                        백업
+                                    </Button>
+                                </Flex>
+                            </Form.Item>
+
+
+
                         </Form>
+
+
+
                     </div>
 
                 </Content>
